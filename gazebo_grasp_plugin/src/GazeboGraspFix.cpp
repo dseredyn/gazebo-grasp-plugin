@@ -8,7 +8,7 @@
 #include <gazebo_grasp_plugin/GazeboGraspFix.h>
 #include <gazebo_version_helpers/GazeboVersionHelpers.h>
 
-#include <msgs/grasp_event.pb.h>
+// #include <msgs/grasp_event.pb.h>
 
 using gazebo::GazeboGraspFix;
 using gazebo::GzVector3;
@@ -281,8 +281,8 @@ void GazeboGraspFix::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
                        this, latching);
   }
 
-  gzmsg << "Advertising grasping events on topic grasp_events" << std::endl;
-  this->eventsPub = this->node->Advertise<msgs::GraspEvent>("~/grasp_events");
+  // gzmsg << "Advertising grasping events on topic grasp_events" << std::endl;
+  // this->eventsPub = this->node->Advertise<msgs::GraspEvent>("~/grasp_events");
 
   update_connection = event::Events::ConnectWorldUpdateEnd(boost::bind(
                         &GazeboGraspFix::OnUpdate, this));
@@ -963,19 +963,21 @@ void GazeboGraspFix::OnContact(const ConstContactsPtr &_msg)
 void GazeboGraspFix::OnAttach(const std::string &objectName,
                               const std::string &armName)
 {
-  msgs::GraspEvent event;
-  event.set_arm(armName);
-  event.set_object(objectName);
-  event.set_attached(true);
-  eventsPub->Publish(event);
+  std::cout << "GazeboGraspFix::OnAttach: " << objectName << " to " << armName << std::endl;
+  // msgs::GraspEvent event;
+  // event.set_arm(armName);
+  // event.set_object(objectName);
+  // event.set_attached(true);
+  // eventsPub->Publish(event);
 }
 
 void GazeboGraspFix::OnDetach(const std::string &objectName,
                               const std::string &armName)
 {
-  msgs::GraspEvent event;
-  event.set_arm(armName);
-  event.set_object(objectName);
-  event.set_attached(false);
-  eventsPub->Publish(event);
+  std::cout << "GazeboGraspFix::OnDetach: " << objectName << " from " << armName << std::endl;
+  // msgs::GraspEvent event;
+  // event.set_arm(armName);
+  // event.set_object(objectName);
+  // event.set_attached(false);
+  // eventsPub->Publish(event);
 }
